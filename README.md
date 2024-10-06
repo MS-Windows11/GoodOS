@@ -1,1 +1,1 @@
-credit: [is-a.space](discord.gg/hetzner)
+[is-a.space](discord.gg/hetzner)
