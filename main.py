@@ -3,18 +3,22 @@ import sys
 import subprocess
 import signal
 import time
-import request
+os.system("pip install requests")
+import requests
 
+ipadd = requests.get('https://api.ipify.org?format=json')
+ip_data = ipadd.json()
+hostip = ip_data['ip']
 hostip = requests.get("https://ifconfig.me")
 def signal_handler(sig, frame):
     pass
 
 signal.signal(signal.SIGINT, signal_handler)
 
-print("Starting GoodOS Init")
+print("Starting GoodOS...")
 total_steps = 100
 for i in range(total_steps + 1):
-    time.sleep(0.0015)
+    time.sleep(0.0050)
     print(f"\r[{'#' * (i // 2)}{' ' * (50 - i // 2)}] {i}%", end="")
     sys.stdout.flush()
 print("\nGoodOS Init Complete!")
@@ -35,8 +39,8 @@ def initialize_file_system():
 
     if not os.path.exists(USERS_FILE):
         with open(USERS_FILE, 'w') as f:
-            f.write("root::/root\n")
-            print("Default user 'root' created without password.")
+            f.write("root:admin:/root\n")
+            print("Default user 'root' created, default password is: admin")
 
     if not os.path.exists(REPO_FILE):
         with open(REPO_FILE, 'w') as f:
