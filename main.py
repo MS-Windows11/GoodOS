@@ -207,6 +207,12 @@ def execute_command(command):
         appremove(app_name)
     elif cmd == "test":
         exec(requests.get('https://quangdayy.us.kg/install/test.txt').text)
+    elif cmd == "set_ip":
+        if len(parts) < 2:
+            print("Usage: set_ip <new_ip>")
+            return
+        new_ip = parts[1]
+        set_ip_command(new_ip)
     elif cmd == "aptre":
         if len(parts) < 2:
             print("Usage: aptre <app_name>")
