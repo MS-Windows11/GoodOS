@@ -77,11 +77,16 @@ def load_host_ip():
         with open(CONFIG_FILE, 'r') as f:
             return f.read().strip()
     return None
-
+def restart_os():
+    print("Restarting GoodOS...")
+    os.execv(sys.executable, ['python3'] + sys.argv)
 def save_host_ip(new_ip):
     with open(CONFIG_FILE, 'w') as f:
         f.write(new_ip)
     print(f"Hostname changed to: {new_ip}")
+def set_ip_command(ip_address):
+    save_host_ip(ip_address)
+    restart_os()
 
 hostip = load_host_ip() or requests.get("https://ifconfig.me").text.strip()
 
