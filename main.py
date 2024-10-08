@@ -30,7 +30,7 @@ REPO_FILE = os.path.join(base_directory, 'etc', 'appinstallrepos')
 HOME_DIR = os.path.join(base_directory, 'home')
 ROOT_HOME_DIR = os.path.join(HOME_DIR, 'root')
 DEFAULT_REPO = "https://raw.githubusercontent.com/thestupidadmin/SpaceOS/refs/heads/main/repos"
-
+CONFIG_FILE = os.path.join(base_directory, 'bin', 'config.txt')
 def initialize_file_system():
     os.makedirs(os.path.join(base_directory, 'bin'), exist_ok=True)
     os.makedirs(os.path.join(base_directory, 'etc'), exist_ok=True)
@@ -72,6 +72,22 @@ def login():
             return True
     print("User not found.")
     return False
+def load_host_ip():
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE, 'r') as f:
+            return f.read().strip()
+    return None
+
+def save_host_ip(new_ip):
+    with open(CONFIG_FILE, 'w') as f:
+        f.write(new_ip)
+    print(f"Hostname changed to: {new_ip}")
+
+hostip = load_host_ip() or requests.get("https://ifconfig.me").text.strip()
+
+def set_ip_command(ip_address):
+    """Set a new host IP."""
+    save_host_ip(ip_address)
 
 def apti(app_name):
     with open(REPO_FILE, 'r') as f:
